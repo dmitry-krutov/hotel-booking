@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Contracts", "src\HotelBooking.Contracts\HotelBooking.Contracts.csproj", "{A95B3911-69B5-4D86-AB61-7545D5806361}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Infrastructure.Authentication", "src\HotelBooking.Infrastructure.Authentication\HotelBooking.Infrastructure.Authentication.csproj", "{17897A40-BCA3-4FB7-BD3A-C3EEAF843EE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{A95B3911-69B5-4D86-AB61-7545D5806361}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A95B3911-69B5-4D86-AB61-7545D5806361}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A95B3911-69B5-4D86-AB61-7545D5806361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17897A40-BCA3-4FB7-BD3A-C3EEAF843EE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17897A40-BCA3-4FB7-BD3A-C3EEAF843EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17897A40-BCA3-4FB7-BD3A-C3EEAF843EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17897A40-BCA3-4FB7-BD3A-C3EEAF843EE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C7268419-648A-4905-B8C0-7F15E9367784} = {148DD9EA-2637-4E6B-B219-12F43A3BBAAF}

@@ -25,9 +25,9 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationWriteDbContext>((sp, options) =>
         {
-            var connectionString = configuration.GetConnectionString("MySql");
+            var connectionString = configuration.GetConnectionString("AppDb");
             if (string.IsNullOrWhiteSpace(connectionString))
-                throw new InvalidOperationException("Connection string 'MySql' is not configured.");
+                throw new InvalidOperationException("Connection string 'AppDb' is not configured.");
 
             var efOptions = sp.GetRequiredService<IOptions<EfOptions>>().Value;
 

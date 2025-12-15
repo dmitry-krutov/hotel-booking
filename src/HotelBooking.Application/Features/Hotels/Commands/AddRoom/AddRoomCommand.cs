@@ -8,7 +8,7 @@ namespace HotelBooking.Application.Features.Hotels.Commands.AddRoom;
 
 public class AddRoomCommand : ICommand, IMapFrom<AddRoomRequest>
 {
-    public Guid HotelId { get; init; }
+    public Guid HotelId { get; set; }
 
     public required string Title { get; init; }
 

@@ -9,12 +9,15 @@ using HotelBooking.Application.Features.Hotels.Commands.DeleteRoom;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateRoom;
 using HotelBooking.Contracts.Hotels;
+using HotelBooking.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotelBooking.Web.Hotels;
+namespace HotelBooking.Web;
 
 public class HotelsController(IMapper mapper) : ApplicationController
 {
+    [Authorize(Roles = RoleNames.ADMIN)]
     [HttpPost]
     public async Task<EndpointResult<HotelDto>> CreateHotel(
         [FromBody] CreateHotelRequest request,
@@ -25,6 +28,7 @@ public class HotelsController(IMapper mapper) : ApplicationController
         return await handler.Handle(command, cancellationToken);
     }
 
+    [Authorize(Roles = RoleNames.ADMIN)]
     [HttpPut("{id:guid}")]
     public async Task<EndpointResult<HotelDto>> UpdateHotel(
         Guid id,
@@ -38,6 +42,7 @@ public class HotelsController(IMapper mapper) : ApplicationController
         return await handler.Handle(command, cancellationToken);
     }
 
+    [Authorize(Roles = RoleNames.ADMIN)]
     [HttpPost("{id:guid}/rooms")]
     public async Task<EndpointResult<RoomDto>> AddRoom(
         Guid id,
@@ -51,6 +56,7 @@ public class HotelsController(IMapper mapper) : ApplicationController
         return await handler.Handle(command, cancellationToken);
     }
 
+    [Authorize(Roles = RoleNames.ADMIN)]
     [HttpPut("{id:guid}/rooms/{roomId:guid}")]
     public async Task<EndpointResult<RoomDto>> UpdateRoom(
         Guid id,
@@ -66,6 +72,7 @@ public class HotelsController(IMapper mapper) : ApplicationController
         return await handler.Handle(command, cancellationToken);
     }
 
+    [Authorize(Roles = RoleNames.ADMIN)]
     [HttpDelete("{id:guid}/rooms/{roomId:guid}")]
     public async Task<EndpointResult> DeleteRoom(
         Guid id,
@@ -73,25 +80,19 @@ public class HotelsController(IMapper mapper) : ApplicationController
         [FromServices] ICommandHandler<DeleteRoomCommand> handler,
         CancellationToken cancellationToken)
     {
-        var command = new DeleteRoomCommand
-        {
-            HotelId = id,
-            RoomId = roomId,
-        };
+        var command = new DeleteRoomCommand { HotelId = id, RoomId = roomId, };
 
         return await handler.Handle(command, cancellationToken);
     }
 
+    [Authorize(Roles = RoleNames.ADMIN)]
     [HttpDelete("{id:guid}")]
     public async Task<EndpointResult> DeleteHotel(
         Guid id,
         [FromServices] ICommandHandler<DeleteHotelCommand> handler,
         CancellationToken cancellationToken)
     {
-        var command = new DeleteHotelCommand
-        {
-            Id = id,
-        };
+        var command = new DeleteHotelCommand { Id = id, };
 
         return await handler.Handle(command, cancellationToken);
     }

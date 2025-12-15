@@ -18,6 +18,7 @@
     <ItemGroup>
       <ProjectReference Include="..\HotelBooking.Application\HotelBooking.Application.csproj" />
       <ProjectReference Include="..\HotelBooking.Domain\HotelBooking.Domain.csproj" />
+      <ProjectReference Include="..\HotelBooking.Infrastructure.Authentication\HotelBooking.Infrastructure.Authentication.csproj" />
       <ProjectReference Include="..\HotelBooking.Infrastructure\HotelBooking.Infrastructure.csproj" />
       <ProjectReference Include="..\Shared\Core\Core.csproj" />
       <ProjectReference Include="..\Shared\Framework\Framework.csproj" />
