@@ -4,11 +4,12 @@ using Core.Database;
 using Core.Validation;
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using HotelBooking.Contracts.Hotels;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Hotels.Commands.AddRoom;
 
-public class AddRoomCommandHandler : ICommandHandler<Guid, AddRoomCommand>
+public sealed class AddRoomCommandHandler : ICommandHandler<RoomDto, AddRoomCommand>
 {
     private readonly IValidator<AddRoomCommand> _validator;
     private readonly IHotelRepository _hotelRepository;
@@ -27,7 +28,7 @@ public class AddRoomCommandHandler : ICommandHandler<Guid, AddRoomCommand>
         _mapper = mapper;
     }
 
-    public async Task<Result<Guid, ErrorList>> Handle(
+    public async Task<Result<RoomDto, ErrorList>> Handle(
         AddRoomCommand command, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -48,6 +49,6 @@ public class AddRoomCommandHandler : ICommandHandler<Guid, AddRoomCommand>
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return roomResult.Value.Id.Value;
+        return _mapper.Map<RoomDto>(roomResult.Value);
     }
 }

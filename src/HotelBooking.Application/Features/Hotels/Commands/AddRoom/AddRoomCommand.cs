@@ -1,10 +1,12 @@
 using Core.Abstractions;
+using Core.Mappings;
+using HotelBooking.Contracts.Hotels;
 using HotelBooking.Domain.Hotel.ValueObjects;
 using HotelBooking.Domain.ValueObjects.Ids;
 
 namespace HotelBooking.Application.Features.Hotels.Commands.AddRoom;
 
-public class AddRoomCommand : ICommand
+public class AddRoomCommand : ICommand, IMapFrom<AddRoomRequest>
 {
     public Guid HotelId { get; init; }
 
