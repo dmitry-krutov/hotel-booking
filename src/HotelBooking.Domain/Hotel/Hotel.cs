@@ -44,7 +44,7 @@ public class Hotel : DomainEntity<HotelId>
         Description = description;
     }
 
-    public Room AddRoom(
+    public Result<Room, Error> AddRoom(
         Title title,
         PricePerNight pricePerNight,
         Capacity capacity,
