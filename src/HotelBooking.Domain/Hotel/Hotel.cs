@@ -34,6 +34,16 @@ public class Hotel : DomainEntity<HotelId>
 
     public IReadOnlyCollection<Room> Rooms => _rooms.AsReadOnly();
 
+    public void UpdateDetails(
+        Title title,
+        Address address,
+        Description description)
+    {
+        Title = title;
+        Address = address;
+        Description = description;
+    }
+
     public Room AddRoom(
         Title title,
         PricePerNight pricePerNight,
