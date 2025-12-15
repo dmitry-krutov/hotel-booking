@@ -22,6 +22,7 @@ public sealed class HotelsMappingProfile : Profile
             .ForMember(d => d.HotelId, opt => opt.MapFrom(s => s.HotelId.Value))
             .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title.Value))
             .ForMember(d => d.PricePerNight, opt => opt.MapFrom(s => s.PricePerNight.Value))
-            .ForMember(d => d.Capacity, opt => opt.MapFrom(s => s.Capacity.Value));
+            .ForMember(d => d.Capacity, opt => opt.MapFrom(s => s.Capacity.Value))
+            .ForMember(d => d.IsActive, opt => opt.MapFrom(s => s.IsActive));
     }
 }

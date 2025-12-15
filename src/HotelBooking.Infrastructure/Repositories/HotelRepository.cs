@@ -26,6 +26,7 @@ public class HotelRepository : IHotelRepository
     public async Task<Result<Hotel, Error>> GetById(HotelId id, CancellationToken cancellationToken)
     {
         var hotel = await _context.Hotels
+            .Include(h => h.Rooms)
             .FirstOrDefaultAsync(h => h.Id == id, cancellationToken);
 
         if (hotel is null)
