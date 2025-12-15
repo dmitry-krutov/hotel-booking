@@ -53,22 +53,22 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
 
             period.Property(x => x.CheckIn)
                 .IsRequired()
-                .HasColumnName("CheckIn")
+                .HasColumnName("check_in")
                 .HasConversion(
                     d => d.ToDateTime(TimeOnly.MinValue),
                     dt => DateOnly.FromDateTime(dt));
 
             period.Property(x => x.CheckOut)
                 .IsRequired()
-                .HasColumnName("CheckOut")
+                .HasColumnName("check_out")
                 .HasConversion(
                     d => d.ToDateTime(TimeOnly.MinValue),
                     dt => DateOnly.FromDateTime(dt));
+
+            period.HasIndex(x => new { x.CheckIn, x.CheckOut });
         });
 
         builder.HasIndex(x => x.UserId);
-
-        builder.HasIndex(x => new { x.RoomId, x.Status, CheckIn = x.Period.CheckIn, CheckOut = x.Period.CheckOut });
 
         builder.HasIndex(x => x.HotelId);
 

@@ -39,7 +39,7 @@ public sealed class AssemblyMappingProfile : Profile
 
             var declaredMapping = type.GetMethod(
                 name: "Mapping",
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 binder: null,
                 types: new[] { typeof(Profile) },
                 modifiers: null);

@@ -39,29 +39,29 @@ public class HotelConfiguration : IEntityTypeConfiguration<Hotel>
             address.Property(x => x.Country)
                 .IsRequired()
                 .HasMaxLength(Address.COUNTRY_MAX_LENGTH)
-                .HasColumnName("Country");
+                .HasColumnName("country");
 
             address.Property(x => x.City)
                 .IsRequired()
                 .HasMaxLength(Address.CITY_MAX_LENGTH)
-                .HasColumnName("City");
+                .HasColumnName("city");
 
             address.Property(x => x.Region)
                 .HasMaxLength(Address.REGION_MAX_LENGTH)
-                .HasColumnName("Region");
+                .HasColumnName("region");
 
             address.Property(x => x.Street)
                 .IsRequired()
                 .HasMaxLength(Address.STREET_MAX_LENGTH)
-                .HasColumnName("Street");
+                .HasColumnName("street");
 
             address.Property(x => x.Building)
                 .HasMaxLength(Address.BUILDING_MAX_LENGTH)
-                .HasColumnName("Building");
+                .HasColumnName("building");
 
             address.Property(x => x.PostalCode)
                 .HasMaxLength(Address.POSTAL_CODE_MAX_LENGTH)
-                .HasColumnName("PostalCode");
+                .HasColumnName("postal_code");
 
             address.HasIndex(x => x.City);
         });
@@ -70,7 +70,7 @@ public class HotelConfiguration : IEntityTypeConfiguration<Hotel>
             .FindNavigation(nameof(Hotel.Rooms))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
 
-        builder.HasMany<Room>("_rooms")
+        builder.HasMany(x => x.Rooms)
             .WithOne()
             .HasForeignKey(x => x.HotelId)
             .IsRequired()

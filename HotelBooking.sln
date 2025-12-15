@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Domain", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Infrastructure", "src\HotelBooking.Infrastructure\HotelBooking.Infrastructure.csproj", "{FA30BF37-9535-435A-8215-32FDB4463921}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Contracts", "src\HotelBooking.Contracts\HotelBooking.Contracts.csproj", "{A95B3911-69B5-4D86-AB61-7545D5806361}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{FA30BF37-9535-435A-8215-32FDB4463921}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA30BF37-9535-435A-8215-32FDB4463921}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA30BF37-9535-435A-8215-32FDB4463921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A95B3911-69B5-4D86-AB61-7545D5806361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A95B3911-69B5-4D86-AB61-7545D5806361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A95B3911-69B5-4D86-AB61-7545D5806361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A95B3911-69B5-4D86-AB61-7545D5806361}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C7268419-648A-4905-B8C0-7F15E9367784} = {148DD9EA-2637-4E6B-B219-12F43A3BBAAF}

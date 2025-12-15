@@ -1,7 +1,12 @@
+using Core.Abstractions;
+using Core.Database;
+using HotelBooking.Application.Features.Hotels;
 using HotelBooking.Infrastructure.DbContexts;
+using HotelBooking.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace HotelBooking.Infrastructure;
 
@@ -11,12 +16,21 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("MySql");
-        if (string.IsNullOrWhiteSpace(connectionString))
-            throw new InvalidOperationException("Connection string 'MySql' is not configured.");
+        services.Configure<EfOptions>(
+            configuration.GetSection(EfOptions.SECTION_NAME));
 
-        services.AddDbContext<ApplicationWriteDbContext>(options =>
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+        services.AddScoped<IHotelRepository, HotelRepository>();
+
+        services.AddDbContext<ApplicationWriteDbContext>((sp, options) =>
         {
+            var connectionString = configuration.GetConnectionString("MySql");
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new InvalidOperationException("Connection string 'MySql' is not configured.");
+
+            var efOptions = sp.GetRequiredService<IOptions<EfOptions>>().Value;
+
             options.UseMySql(
                 connectionString,
                 ServerVersion.AutoDetect(connectionString),
@@ -26,8 +40,11 @@ public static class DependencyInjection
                     mySqlOptions.EnableRetryOnFailure(5);
                 });
 
+            options.UseSnakeCaseNamingConvention();
             options.EnableDetailedErrors();
-            options.EnableSensitiveDataLogging(configuration.GetValue<bool>("Ef:SensitiveLogging"));
+
+            if (efOptions.EnableSensitiveLogging)
+                options.EnableSensitiveDataLogging();
         });
 
         return services;
