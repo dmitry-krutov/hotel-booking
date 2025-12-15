@@ -5,6 +5,7 @@ using Framework.EndpointResults;
 using HotelBooking.Application.Features.Hotels.Commands.AddRoom;
 using HotelBooking.Application.Features.Hotels.Commands.CreateHotel;
 using HotelBooking.Application.Features.Hotels.Commands.DeleteHotel;
+using HotelBooking.Application.Features.Hotels.Commands.DeleteRoom;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateRoom;
 using HotelBooking.Contracts.Hotels;
@@ -61,6 +62,22 @@ public class HotelsController(IMapper mapper) : ApplicationController
         var command = mapper.Map<UpdateRoomCommand>(request);
         command.HotelId = id;
         command.RoomId = roomId;
+
+        return await handler.Handle(command, cancellationToken);
+    }
+
+    [HttpDelete("{id:guid}/rooms/{roomId:guid}")]
+    public async Task<EndpointResult> DeleteRoom(
+        Guid id,
+        Guid roomId,
+        [FromServices] ICommandHandler<DeleteRoomCommand> handler,
+        CancellationToken cancellationToken)
+    {
+        var command = new DeleteRoomCommand
+        {
+            HotelId = id,
+            RoomId = roomId,
+        };
 
         return await handler.Handle(command, cancellationToken);
     }
