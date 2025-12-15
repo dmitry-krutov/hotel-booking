@@ -5,7 +5,6 @@ using Core.Validation;
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using HotelBooking.Contracts.Hotels;
-using HotelBooking.Application.Features.Hotels;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
@@ -37,9 +36,9 @@ public sealed class UpdateHotelCommandHandler : ICommandHandler<HotelDto, Update
         if (!validationResult.IsValid)
             return validationResult.ToList();
 
-        var hotelResult = await _hotelRepository.GetById(command.HotelId, cancellationToken);
+        var hotelResult = await _hotelRepository.GetById(command.HotelIdVo, cancellationToken);
         if (hotelResult.IsFailure)
-            return hotelResult.ToErrorList();
+            return hotelResult.Error.ToErrorList();
 
         var hotel = hotelResult.Value;
 

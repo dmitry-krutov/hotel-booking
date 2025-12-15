@@ -18,16 +18,7 @@ public class BookingId : ComparableValueObject
 
     public static BookingId Create(Guid id) => new(id);
 
-    public static Result<BookingId, Error> TryCreate(Guid? id)
-    {
-        if (!id.HasValue)
-            return GeneralErrors.Validation.ValueIsRequired(nameof(BookingId));
-
-        if (id.Value == Guid.Empty)
-            return GeneralErrors.Validation.ValueIsRequired(nameof(BookingId));
-
-        return Result.Success<BookingId, Error>(Create(id.Value));
-    }
+    public static Result<BookingId, Error> TryCreate(Guid id) => Create(id);
 
     protected override IEnumerable<IComparable> GetComparableEqualityComponents()
     {

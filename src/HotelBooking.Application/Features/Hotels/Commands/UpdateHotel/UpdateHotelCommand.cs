@@ -16,7 +16,7 @@ public class UpdateHotelCommand : ICommand, IMapFrom<UpdateHotelRequest>
 
     public required string Description { get; init; }
 
-    public HotelId HotelId { get; set; } = null!;
+    public HotelId HotelIdVo { get; set; } = null!;
 
     public Title TitleVo { get; set; } = null!;
 

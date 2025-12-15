@@ -10,7 +10,7 @@ public sealed class UpdateHotelCommandValidator : AbstractValidator<UpdateHotelC
     public UpdateHotelCommandValidator()
     {
         RuleFor(x => x.Id)
-            .MustBeValueObject(HotelId.TryCreate, (cmd, vo) => cmd.HotelId = vo);
+            .MustBeValueObject(HotelId.TryCreate, (cmd, vo) => cmd.HotelIdVo = vo);
 
         RuleFor(x => x.Title)
             .MustBeValueObject(Title.Create, (cmd, vo) => cmd.TitleVo = vo);
