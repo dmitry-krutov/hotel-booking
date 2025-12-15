@@ -3,6 +3,7 @@ using Core.Abstractions;
 using Framework;
 using Framework.EndpointResults;
 using HotelBooking.Application.Features.Hotels.Commands.CreateHotel;
+using HotelBooking.Application.Features.Hotels.Commands.DeleteHotel;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
 using HotelBooking.Contracts.Hotels;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,20 @@ public class HotelsController(IMapper mapper) : ApplicationController
     {
         var command = mapper.Map<UpdateHotelCommand>(request);
         command.Id = id;
+
+        return await handler.Handle(command, cancellationToken);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<EndpointResult> DeleteHotel(
+        Guid id,
+        [FromServices] ICommandHandler<DeleteHotelCommand> handler,
+        CancellationToken cancellationToken)
+    {
+        var command = new DeleteHotelCommand
+        {
+            Id = id,
+        };
 
         return await handler.Handle(command, cancellationToken);
     }

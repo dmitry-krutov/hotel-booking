@@ -33,4 +33,11 @@ public class HotelRepository : IHotelRepository
 
         return hotel;
     }
+
+    public Task<UnitResult<Error>> Remove(Hotel hotel, CancellationToken cancellationToken)
+    {
+        _context.Hotels.Remove(hotel);
+
+        return Task.FromResult(UnitResult.Success<Error>());
+    }
 }
