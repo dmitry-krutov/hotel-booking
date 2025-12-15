@@ -7,8 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HotelBooking.Application\HotelBooking.Application.csproj" />
-      <ProjectReference Include="..\HotelBooking.Domain\HotelBooking.Domain.csproj" />
+      <ProjectReference Include="..\Shared\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 
 </Project>

@@ -17,7 +17,7 @@ public class Hotel : DomainEntity<HotelId>
         : base(id)
     {
         Title = title;
-        SetAddress(address);
+        Address = address;
         Description = description;
     }
 
@@ -29,8 +29,6 @@ public class Hotel : DomainEntity<HotelId>
     public Title Title { get; private set; }
 
     public Address Address { get; private set; } = null!;
-
-    public string City { get; private set; } = null!;
 
     public Description Description { get; private set; }
 
@@ -64,11 +62,5 @@ public class Hotel : DomainEntity<HotelId>
 
         _rooms.Remove(room);
         return Result.Success<Error>();
-    }
-
-    public void SetAddress(Address address)
-    {
-        Address = address;
-        City = Address.City;
     }
 }

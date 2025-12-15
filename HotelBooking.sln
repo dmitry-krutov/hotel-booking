@@ -4,6 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		compose.yml = compose.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Web", "src\HotelBooking.Web\HotelBooking.Web.csproj", "{E0CA1FA9-0141-4FE0-95F6-8C779FF1DB6C}"
@@ -16,11 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Shared\Core\Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "src\Shared\Framework\Framework.csproj", "{938F87F0-71B7-4F77-9C92-473105233C38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Domain", "HotelBooking.Domain\HotelBooking.Domain.csproj", "{8F9179AD-CD73-4A85-8B36-A29CFF108CDA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Application", "src\HotelBooking.Application\HotelBooking.Application.csproj", "{0A530355-70AF-4519-8737-A2CB2B1D3469}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Application", "HotelBooking.Application\HotelBooking.Application.csproj", "{BE0261AE-AA17-408B-AC64-0FCB5BAA0C8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Domain", "src\HotelBooking.Domain\HotelBooking.Domain.csproj", "{DABC4D14-C38D-41AC-A368-C1FE8D67ECB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Infrastructure", "HotelBooking.Infrastructure\HotelBooking.Infrastructure.csproj", "{2A4D93EE-8CBB-4044-8D47-6948F6D4E4D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Infrastructure", "src\HotelBooking.Infrastructure\HotelBooking.Infrastructure.csproj", "{FA30BF37-9535-435A-8215-32FDB4463921}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,18 +45,18 @@ Global
 		{938F87F0-71B7-4F77-9C92-473105233C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{938F87F0-71B7-4F77-9C92-473105233C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{938F87F0-71B7-4F77-9C92-473105233C38}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F9179AD-CD73-4A85-8B36-A29CFF108CDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F9179AD-CD73-4A85-8B36-A29CFF108CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F9179AD-CD73-4A85-8B36-A29CFF108CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F9179AD-CD73-4A85-8B36-A29CFF108CDA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE0261AE-AA17-408B-AC64-0FCB5BAA0C8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE0261AE-AA17-408B-AC64-0FCB5BAA0C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE0261AE-AA17-408B-AC64-0FCB5BAA0C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE0261AE-AA17-408B-AC64-0FCB5BAA0C8F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A4D93EE-8CBB-4044-8D47-6948F6D4E4D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A4D93EE-8CBB-4044-8D47-6948F6D4E4D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A4D93EE-8CBB-4044-8D47-6948F6D4E4D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A4D93EE-8CBB-4044-8D47-6948F6D4E4D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A530355-70AF-4519-8737-A2CB2B1D3469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A530355-70AF-4519-8737-A2CB2B1D3469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A530355-70AF-4519-8737-A2CB2B1D3469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A530355-70AF-4519-8737-A2CB2B1D3469}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DABC4D14-C38D-41AC-A368-C1FE8D67ECB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DABC4D14-C38D-41AC-A368-C1FE8D67ECB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DABC4D14-C38D-41AC-A368-C1FE8D67ECB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DABC4D14-C38D-41AC-A368-C1FE8D67ECB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA30BF37-9535-435A-8215-32FDB4463921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA30BF37-9535-435A-8215-32FDB4463921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA30BF37-9535-435A-8215-32FDB4463921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA30BF37-9535-435A-8215-32FDB4463921}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C7268419-648A-4905-B8C0-7F15E9367784} = {148DD9EA-2637-4E6B-B219-12F43A3BBAAF}
