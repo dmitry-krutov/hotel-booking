@@ -6,6 +6,7 @@ using HotelBooking.Application.Features.Hotels.Commands.AddRoom;
 using HotelBooking.Application.Features.Hotels.Commands.CreateHotel;
 using HotelBooking.Application.Features.Hotels.Commands.DeleteHotel;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
+using HotelBooking.Application.Features.Hotels.Commands.UpdateRoom;
 using HotelBooking.Contracts.Hotels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,6 +46,21 @@ public class HotelsController(IMapper mapper) : ApplicationController
     {
         var command = mapper.Map<AddRoomCommand>(request);
         command.HotelId = id;
+
+        return await handler.Handle(command, cancellationToken);
+    }
+
+    [HttpPut("{id:guid}/rooms/{roomId:guid}")]
+    public async Task<EndpointResult<RoomDto>> UpdateRoom(
+        Guid id,
+        Guid roomId,
+        [FromBody] UpdateRoomRequest request,
+        [FromServices] ICommandHandler<RoomDto, UpdateRoomCommand> handler,
+        CancellationToken cancellationToken)
+    {
+        var command = mapper.Map<UpdateRoomCommand>(request);
+        command.HotelId = id;
+        command.RoomId = roomId;
 
         return await handler.Handle(command, cancellationToken);
     }

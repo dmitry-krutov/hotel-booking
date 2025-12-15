@@ -72,4 +72,20 @@ public class Hotel : DomainEntity<HotelId>
         _rooms.Remove(room);
         return Result.Success<Error>();
     }
+
+    public Result<Room, Error> UpdateRoom(
+        RoomId roomId,
+        Title title,
+        PricePerNight pricePerNight,
+        Capacity capacity,
+        bool isActive)
+    {
+        var room = _rooms.FirstOrDefault(r => r.Id == roomId);
+        if (room is null)
+            return GeneralErrors.Entity.NotFound(nameof(Room));
+
+        room.UpdateDetails(title, pricePerNight, capacity, isActive);
+
+        return room;
+    }
 }

@@ -36,4 +36,16 @@ public class Room : DomainEntity<RoomId>
     public Capacity Capacity { get; private set; } = null!;
 
     public bool IsActive { get; private set; }
+
+    public void UpdateDetails(
+        Title title,
+        PricePerNight pricePerNight,
+        Capacity capacity,
+        bool isActive)
+    {
+        Title = title;
+        PricePerNight = pricePerNight;
+        Capacity = capacity;
+        IsActive = isActive;
+    }
 }
