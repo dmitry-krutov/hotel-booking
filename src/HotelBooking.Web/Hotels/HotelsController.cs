@@ -2,6 +2,7 @@ using AutoMapper;
 using Core.Abstractions;
 using Framework;
 using Framework.EndpointResults;
+using HotelBooking.Application.Features.Hotels.Commands.AddRoom;
 using HotelBooking.Application.Features.Hotels.Commands.CreateHotel;
 using HotelBooking.Application.Features.Hotels.Commands.DeleteHotel;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
@@ -31,6 +32,19 @@ public class HotelsController(IMapper mapper) : ApplicationController
     {
         var command = mapper.Map<UpdateHotelCommand>(request);
         command.Id = id;
+
+        return await handler.Handle(command, cancellationToken);
+    }
+
+    [HttpPost("{id:guid}/rooms")]
+    public async Task<EndpointResult<RoomDto>> AddRoom(
+        Guid id,
+        [FromBody] AddRoomRequest request,
+        [FromServices] ICommandHandler<RoomDto, AddRoomCommand> handler,
+        CancellationToken cancellationToken)
+    {
+        var command = mapper.Map<AddRoomCommand>(request);
+        command.HotelId = id;
 
         return await handler.Handle(command, cancellationToken);
     }
