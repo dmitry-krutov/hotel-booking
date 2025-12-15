@@ -30,15 +30,15 @@ public sealed class Booking : DomainEntity<BookingId>
     {
     }
 
-    public HotelId HotelId { get; private set; }
+    public HotelId HotelId { get; private set; } = null!;
 
-    public RoomId RoomId { get; private set; }
+    public RoomId RoomId { get; private set; } = null!;
 
     public Guid UserId { get; private set; }
 
-    public DateRange Period { get; private set; }
+    public DateRange Period { get; private set; } = null!;
 
-    public GuestsCount Guests { get; private set; }
+    public GuestsCount Guests { get; private set; } = null!;
 
     public BookingStatus Status { get; private set; }
 

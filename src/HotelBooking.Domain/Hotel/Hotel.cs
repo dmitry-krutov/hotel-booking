@@ -26,13 +26,23 @@ public class Hotel : DomainEntity<HotelId>
     {
     }
 
-    public Title Title { get; private set; }
+    public Title Title { get; private set; } = null!;
 
     public Address Address { get; private set; } = null!;
 
-    public Description Description { get; private set; }
+    public Description Description { get; private set; } = null!;
 
     public IReadOnlyCollection<Room> Rooms => _rooms.AsReadOnly();
+
+    public void UpdateDetails(
+        Title title,
+        Address address,
+        Description description)
+    {
+        Title = title;
+        Address = address;
+        Description = description;
+    }
 
     public Room AddRoom(
         Title title,
@@ -52,7 +62,6 @@ public class Hotel : DomainEntity<HotelId>
 
         return room;
     }
-
 
     public UnitResult<Error> RemoveRoom(RoomId roomId)
     {

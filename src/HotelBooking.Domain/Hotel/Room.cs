@@ -27,13 +27,13 @@ public class Room : DomainEntity<RoomId>
     {
     }
 
-    public HotelId HotelId { get; private set; }
+    public HotelId HotelId { get; private set; } = null!;
 
-    public Title Title { get; private set; }
+    public Title Title { get; private set; } = null!;
 
-    public PricePerNight PricePerNight { get; private set; }
+    public PricePerNight PricePerNight { get; private set; } = null!;
 
-    public Capacity Capacity { get; private set; }
+    public Capacity Capacity { get; private set; } = null!;
 
     public bool IsActive { get; private set; }
 }
