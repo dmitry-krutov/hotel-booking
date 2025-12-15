@@ -10,4 +10,6 @@ public interface IHotelRepository
     Task<Result<Guid, Error>> Add(Hotel hotel, CancellationToken cancellationToken);
 
     Task<Result<Hotel, Error>> GetById(HotelId id, CancellationToken cancellationToken);
+
+    Task<UnitResult<Error>> Remove(Hotel hotel, CancellationToken cancellationToken);
 }
