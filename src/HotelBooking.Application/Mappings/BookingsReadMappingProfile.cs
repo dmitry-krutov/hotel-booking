@@ -1,5 +1,6 @@
 using AutoMapper;
 using HotelBooking.Application.Features.Bookings.ReadModels;
+using HotelBooking.Application.Features.Hotels.ReadModels;
 using HotelBooking.Contracts.Bookings;
 
 namespace HotelBooking.Application.Mappings;

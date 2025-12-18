@@ -8,15 +8,44 @@ using HotelBooking.Application.Features.Hotels.Commands.DeleteHotel;
 using HotelBooking.Application.Features.Hotels.Commands.DeleteRoom;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateRoom;
+using HotelBooking.Application.Features.Hotels.Queries.GetHotelById;
+using HotelBooking.Application.Features.Hotels.Queries.GetHotels;
 using HotelBooking.Contracts.Hotels;
 using HotelBooking.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SharedKernel;
 
 namespace HotelBooking.Web;
 
 public class HotelsController(IMapper mapper) : ApplicationController
 {
+    [HttpGet]
+    public async Task<EndpointResult<PagedList<HotelDto>>> GetHotels(
+        [FromQuery] GetHotelsRequest request,
+        [FromServices] IQueryHandlerWithResult<PagedList<HotelDto>, GetHotelsQuery> handler,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetHotelsQuery
+        {
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
+
+        return await handler.Handle(query, cancellationToken);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<EndpointResult<HotelDetailsDto>> GetHotelById(
+        Guid id,
+        [FromServices] IQueryHandlerWithResult<HotelDetailsDto, GetHotelByIdQuery> handler,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetHotelByIdQuery { HotelId = id };
+
+        return await handler.Handle(query, cancellationToken);
+    }
+
     [Authorize(Roles = RoleNames.ADMIN)]
     [HttpPost]
     public async Task<EndpointResult<HotelDto>> CreateHotel(

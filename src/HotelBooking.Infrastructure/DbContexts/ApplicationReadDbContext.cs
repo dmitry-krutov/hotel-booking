@@ -1,4 +1,5 @@
 using HotelBooking.Application.Features.Bookings.ReadModels;
+using HotelBooking.Application.Features.Hotels.ReadModels;
 using HotelBooking.Infrastructure.ReadConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

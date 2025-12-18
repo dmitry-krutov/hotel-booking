@@ -3,7 +3,6 @@ using HotelBooking.Application.Features.Bookings.ReadModels;
 using HotelBooking.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
-using System.Linq;
 
 namespace HotelBooking.Infrastructure.Repositories;
 
