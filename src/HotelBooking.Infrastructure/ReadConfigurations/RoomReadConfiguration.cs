@@ -1,4 +1,5 @@
 using HotelBooking.Application.Features.Bookings.ReadModels;
+using HotelBooking.Application.Features.Hotels.ReadModels;
 using HotelBooking.Domain.Hotel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

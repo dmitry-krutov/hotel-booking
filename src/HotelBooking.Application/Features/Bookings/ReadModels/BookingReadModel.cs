@@ -1,3 +1,5 @@
+using HotelBooking.Application.Features.Hotels.ReadModels;
+
 namespace HotelBooking.Application.Features.Bookings.ReadModels;
 
 public class BookingReadModel

@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IHotelRepository, HotelRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IBookingReadRepository, BookingReadRepository>();
+        services.AddScoped<IHotelReadRepository, HotelReadRepository>();
 
         services.AddDbContext<ApplicationWriteDbContext>((sp, options) =>
         {

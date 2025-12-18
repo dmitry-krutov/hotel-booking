@@ -1,4 +1,4 @@
-namespace HotelBooking.Application.Features.Bookings.ReadModels;
+namespace HotelBooking.Application.Features.Hotels.ReadModels;
 
 public class HotelReadModel
 {
