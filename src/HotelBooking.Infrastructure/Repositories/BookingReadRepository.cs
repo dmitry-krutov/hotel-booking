@@ -3,6 +3,7 @@ using HotelBooking.Application.Features.Bookings.ReadModels;
 using HotelBooking.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
+using System.Linq;
 
 namespace HotelBooking.Infrastructure.Repositories;
 
@@ -37,5 +38,14 @@ public class BookingReadRepository : IBookingReadRepository
             .ToListAsync(cancellationToken);
 
         return new PagedList<BookingReadModel>(bookings, totalCount, pageNumber, pageSize);
+    }
+
+    public async Task<BookingReadModel?> GetById(Guid bookingId, CancellationToken cancellationToken)
+    {
+        return await _context.Bookings
+            .AsNoTracking()
+            .Include(b => b.Hotel)
+            .Include(b => b.Room)
+            .FirstOrDefaultAsync(b => b.Id == bookingId, cancellationToken);
     }
 }
