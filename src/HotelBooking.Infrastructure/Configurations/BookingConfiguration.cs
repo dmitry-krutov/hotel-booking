@@ -41,6 +41,10 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
         builder.Property(x => x.CreatedAtUtc)
             .IsRequired();
 
+        builder.Property(x => x.TotalPrice)
+            .IsRequired()
+            .HasPrecision(18, 2);
+
         builder.Property(x => x.Guests)
             .IsRequired()
             .HasConversion(

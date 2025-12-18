@@ -13,7 +13,8 @@ public sealed class Booking : DomainEntity<BookingId>
         RoomId roomId,
         Guid userId,
         DateRange period,
-        GuestsCount guests)
+        GuestsCount guests,
+        decimal totalPrice)
         : base(id)
     {
         HotelId = hotelId;
@@ -21,6 +22,7 @@ public sealed class Booking : DomainEntity<BookingId>
         UserId = userId;
         Period = period;
         Guests = guests;
+        TotalPrice = decimal.Round(totalPrice, 2, MidpointRounding.AwayFromZero);
         Status = BookingStatus.ACTIVE;
         CreatedAtUtc = DateTime.UtcNow;
     }
@@ -39,6 +41,8 @@ public sealed class Booking : DomainEntity<BookingId>
     public DateRange Period { get; private set; } = null!;
 
     public GuestsCount Guests { get; private set; } = null!;
+
+    public decimal TotalPrice { get; private set; }
 
     public BookingStatus Status { get; private set; }
 
