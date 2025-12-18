@@ -10,4 +10,6 @@ public interface IBookingReadRepository
         int pageNumber,
         int pageSize,
         CancellationToken cancellationToken);
+
+    Task<BookingReadModel?> GetById(Guid bookingId, CancellationToken cancellationToken);
 }

@@ -51,6 +51,7 @@ public static class DependencyInjection
         services.AddScoped<TokenService>();
         services.AddScoped<ITwoFactorService, TwoFactorService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAuthorizationService, AuthorizationService>();
 
         var jwt = configuration.GetSection(JwtSettings.SECTION_NAME).Get<JwtSettings>()
                   ?? throw new InvalidOperationException("JwtSettings not found");

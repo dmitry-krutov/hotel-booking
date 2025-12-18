@@ -3,6 +3,8 @@ using Core.Abstractions;
 using Framework;
 using Framework.EndpointResults;
 using HotelBooking.Application.Features.Bookings.Commands.CreateBooking;
+using HotelBooking.Application.Features.Bookings.ReadModels;
+using HotelBooking.Application.Features.Bookings.Queries.GetBookingById;
 using HotelBooking.Application.Features.Bookings.Queries.GetUserBookings;
 using HotelBooking.Contracts.Bookings;
 using Microsoft.AspNetCore.Authorization;
@@ -47,6 +49,23 @@ public class BookingsController : ApplicationController
             UserId = currentUser.UserId,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
+        };
+
+        return await handler.Handle(query, cancellationToken);
+    }
+
+    [Authorize]
+    [HttpGet("{bookingId:guid}")]
+    public async Task<EndpointResult<BookingReadModel>> GetBookingById(
+        Guid bookingId,
+        [FromServices] ICurrentUser currentUser,
+        [FromServices] IQueryHandlerWithResult<BookingReadModel, GetBookingByIdQuery> handler,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetBookingByIdQuery
+        {
+            Id = bookingId,
+            RequesterId = currentUser.UserId
         };
 
         return await handler.Handle(query, cancellationToken);

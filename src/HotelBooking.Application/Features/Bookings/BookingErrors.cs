@@ -24,4 +24,9 @@ public static class BookingErrors
         Error.Validation(
             "booking.checkin.past",
             "Check-in date must not be in the past");
+
+    public static Error AccessDenied() =>
+        Error.Validation(
+            "booking.access.denied",
+            "You are not allowed to view this booking");
 }
