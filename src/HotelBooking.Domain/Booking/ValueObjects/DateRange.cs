@@ -15,6 +15,9 @@ public sealed class DateRange : ComparableValueObject
 
     public DateOnly CheckOut { get; }
 
+    public int Nights =>
+        (CheckOut.ToDateTime(TimeOnly.MinValue) - CheckIn.ToDateTime(TimeOnly.MinValue)).Days;
+
     public static Result<DateRange, Error> Create(
         DateOnly checkIn,
         DateOnly checkOut)

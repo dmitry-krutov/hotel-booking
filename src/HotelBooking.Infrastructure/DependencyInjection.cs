@@ -1,5 +1,6 @@
 using Core.Abstractions;
 using Core.Database;
+using HotelBooking.Application.Features.Bookings;
 using HotelBooking.Application.Features.Hotels;
 using HotelBooking.Infrastructure.DbContexts;
 using HotelBooking.Infrastructure.Repositories;
@@ -22,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
         services.AddScoped<IHotelRepository, HotelRepository>();
+        services.AddScoped<IBookingRepository, BookingRepository>();
 
         services.AddDbContext<ApplicationWriteDbContext>((sp, options) =>
         {

@@ -23,7 +23,6 @@ public static class ModelStateToEnvelopeMapper
             .ToList();
 
         return new BadRequestObjectResult(
-            Envelope.Error(new ErrorList(errors))
-        );
+            Envelope.Error(new ErrorList(errors)));
     }
 }
