@@ -24,6 +24,7 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
         services.AddScoped<IHotelRepository, HotelRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
+        services.AddScoped<IBookingReadRepository, BookingReadRepository>();
 
         services.AddDbContext<ApplicationWriteDbContext>((sp, options) =>
         {
@@ -44,6 +45,31 @@ public static class DependencyInjection
 
             options.UseSnakeCaseNamingConvention();
             options.EnableDetailedErrors();
+
+            if (efOptions.EnableSensitiveLogging)
+                options.EnableSensitiveDataLogging();
+        });
+
+        services.AddDbContext<ApplicationReadDbContext>((sp, options) =>
+        {
+            var connectionString = configuration.GetConnectionString("AppDb");
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new InvalidOperationException("Connection string 'AppDb' is not configured.");
+
+            var efOptions = sp.GetRequiredService<IOptions<EfOptions>>().Value;
+
+            options.UseMySql(
+                connectionString,
+                ServerVersion.AutoDetect(connectionString),
+                mySqlOptions =>
+                {
+                    mySqlOptions.MigrationsAssembly(typeof(ApplicationWriteDbContext).Assembly.FullName);
+                    mySqlOptions.EnableRetryOnFailure(5);
+                });
+
+            options.UseSnakeCaseNamingConvention();
+            options.EnableDetailedErrors();
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
             if (efOptions.EnableSensitiveLogging)
                 options.EnableSensitiveDataLogging();

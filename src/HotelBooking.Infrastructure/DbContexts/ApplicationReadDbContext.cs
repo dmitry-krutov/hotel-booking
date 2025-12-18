@@ -1,21 +1,22 @@
-using HotelBooking.Domain.Booking;
-using HotelBooking.Domain.Hotel;
-using HotelBooking.Infrastructure.Configurations;
+using HotelBooking.Application.Features.Bookings.ReadModels;
+using HotelBooking.Infrastructure.ReadConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace HotelBooking.Infrastructure.DbContexts;
 
-public class ApplicationWriteDbContext : DbContext
+public class ApplicationReadDbContext : DbContext
 {
-    public ApplicationWriteDbContext(DbContextOptions<ApplicationWriteDbContext> options)
+    public ApplicationReadDbContext(DbContextOptions<ApplicationReadDbContext> options)
         : base(options)
     {
     }
 
-    public DbSet<Hotel> Hotels => Set<Hotel>();
+    public DbSet<HotelReadModel> Hotels => Set<HotelReadModel>();
 
-    public DbSet<Booking> Bookings => Set<Booking>();
+    public DbSet<RoomReadModel> Rooms => Set<RoomReadModel>();
+
+    public DbSet<BookingReadModel> Bookings => Set<BookingReadModel>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,8 +28,8 @@ public class ApplicationWriteDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(ApplicationWriteDbContext).Assembly,
-            type => type.Namespace == typeof(BookingConfiguration).Namespace);
+            typeof(ApplicationReadDbContext).Assembly,
+            type => type.Namespace == typeof(BookingReadConfiguration).Namespace);
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

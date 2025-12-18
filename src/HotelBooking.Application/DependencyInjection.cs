@@ -17,6 +17,7 @@ public static class DependencyInjection
 
             cfg.AddProfile<HotelsMappingProfile>();
             cfg.AddProfile<BookingsMappingProfile>();
+            cfg.AddProfile<BookingsReadMappingProfile>();
         });
 
         services.AddHandlers();
