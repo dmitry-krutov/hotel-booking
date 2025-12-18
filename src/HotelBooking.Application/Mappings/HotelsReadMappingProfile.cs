@@ -24,5 +24,7 @@ public sealed class HotelsReadMappingProfile : Profile
             .ForMember(d => d.Rooms, opt => opt.MapFrom(s => s.Rooms));
 
         CreateMap<RoomReadModel, RoomDto>();
+
+        CreateMap<HotelSearchResultReadModel, HotelSearchResultDto>();
     }
 }
