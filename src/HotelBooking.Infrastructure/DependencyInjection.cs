@@ -2,6 +2,7 @@ using Core.Abstractions;
 using Core.Database;
 using HotelBooking.Application.Features.Bookings;
 using HotelBooking.Application.Features.Hotels;
+using HotelBooking.Infrastructure.Database;
 using HotelBooking.Infrastructure.DbContexts;
 using HotelBooking.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,14 @@ public static class DependencyInjection
         services.Configure<EfOptions>(
             configuration.GetSection(EfOptions.SECTION_NAME));
 
+        services.AddScoped<IDbConnectionFactory, MySqlConnectionFactory>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
         services.AddScoped<IHotelRepository, HotelRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IBookingReadRepository, BookingReadRepository>();
         services.AddScoped<IHotelReadRepository, HotelReadRepository>();
+        services.AddScoped<IHotelSearchReadRepository, HotelSearchReadRepository>();
 
         services.AddDbContext<ApplicationWriteDbContext>((sp, options) =>
         {

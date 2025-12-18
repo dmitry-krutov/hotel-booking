@@ -10,6 +10,7 @@ using HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateRoom;
 using HotelBooking.Application.Features.Hotels.Queries.GetHotelById;
 using HotelBooking.Application.Features.Hotels.Queries.GetHotels;
+using HotelBooking.Application.Features.Hotels.Queries.SearchHotels;
 using HotelBooking.Contracts.Hotels;
 using HotelBooking.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +21,30 @@ namespace HotelBooking.Web;
 
 public class HotelsController(IMapper mapper) : ApplicationController
 {
+    [HttpGet("search")]
+    public async Task<EndpointResult<PagedList<HotelSearchResultDto>>> SearchHotels(
+        [FromQuery] SearchHotelsRequest request,
+        [FromServices] IQueryHandlerWithResult<PagedList<HotelSearchResultDto>, SearchHotelsQuery> handler,
+        CancellationToken cancellationToken)
+    {
+        var query = new SearchHotelsQuery
+        {
+            CheckIn = request.CheckIn,
+            CheckOut = request.CheckOut,
+            Guests = request.Guests,
+            City = Normalize(request.City),
+            Country = Normalize(request.Country),
+            Region = Normalize(request.Region),
+            MinPrice = request.MinPrice,
+            MaxPrice = request.MaxPrice,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize,
+            Sort = request.Sort
+        };
+
+        return await handler.Handle(query, cancellationToken);
+    }
+
     [HttpGet]
     public async Task<EndpointResult<PagedList<HotelDto>>> GetHotels(
         [FromQuery] GetHotelsRequest request,
@@ -124,5 +149,10 @@ public class HotelsController(IMapper mapper) : ApplicationController
         var command = new DeleteHotelCommand { Id = id, };
 
         return await handler.Handle(command, cancellationToken);
+    }
+
+    private static string? Normalize(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
     }
 }
