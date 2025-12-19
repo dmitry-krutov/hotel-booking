@@ -50,8 +50,23 @@ public class Hotel : DomainEntity<HotelId>
         Capacity capacity,
         bool isActive)
     {
-        var room = new Room(
+        return AddRoom(
             RoomId.NewId(),
+            title,
+            pricePerNight,
+            capacity,
+            isActive);
+    }
+
+    public Result<Room, Error> AddRoom(
+        RoomId roomId,
+        Title title,
+        PricePerNight pricePerNight,
+        Capacity capacity,
+        bool isActive)
+    {
+        var room = new Room(
+            roomId,
             Id,
             title,
             pricePerNight,
