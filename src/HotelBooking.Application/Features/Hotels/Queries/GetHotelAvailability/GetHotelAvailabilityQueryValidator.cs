@@ -9,16 +9,20 @@ public class GetHotelAvailabilityQueryValidator : AbstractValidator<GetHotelAvai
     public GetHotelAvailabilityQueryValidator()
     {
         RuleFor(q => q.HotelId)
-            .NotEmpty();
+            .NotEmpty()
+            .WithError(HotelErrors.Validation.HotelIdRequired());
 
         RuleFor(q => q.Guests)
-            .GreaterThan(0);
+            .GreaterThan(0)
+            .WithError(HotelErrors.Validation.GuestsMustBePositive());
 
         RuleFor(q => q.CheckIn)
-            .NotEmpty();
+            .NotEmpty()
+            .WithError(HotelErrors.Validation.CheckInRequired());
 
         RuleFor(q => q.CheckOut)
-            .NotEmpty();
+            .NotEmpty()
+            .WithError(HotelErrors.Validation.CheckOutRequired());
 
         RuleFor(q => q)
             .Custom((query, context) =>
