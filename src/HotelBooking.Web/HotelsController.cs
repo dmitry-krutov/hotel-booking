@@ -8,6 +8,7 @@ using HotelBooking.Application.Features.Hotels.Commands.DeleteHotel;
 using HotelBooking.Application.Features.Hotels.Commands.DeleteRoom;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateHotel;
 using HotelBooking.Application.Features.Hotels.Commands.UpdateRoom;
+using HotelBooking.Application.Features.Hotels.Queries.GetHotelAvailability;
 using HotelBooking.Application.Features.Hotels.Queries.GetHotelById;
 using HotelBooking.Application.Features.Hotels.Queries.GetHotels;
 using HotelBooking.Application.Features.Hotels.Queries.SearchHotels;
@@ -51,11 +52,7 @@ public class HotelsController(IMapper mapper) : ApplicationController
         [FromServices] IQueryHandlerWithResult<PagedList<HotelDto>, GetHotelsQuery> handler,
         CancellationToken cancellationToken)
     {
-        var query = new GetHotelsQuery
-        {
-            PageNumber = request.PageNumber,
-            PageSize = request.PageSize
-        };
+        var query = new GetHotelsQuery { PageNumber = request.PageNumber, PageSize = request.PageSize };
 
         return await handler.Handle(query, cancellationToken);
     }
@@ -67,6 +64,21 @@ public class HotelsController(IMapper mapper) : ApplicationController
         CancellationToken cancellationToken)
     {
         var query = new GetHotelByIdQuery { HotelId = id };
+
+        return await handler.Handle(query, cancellationToken);
+    }
+
+    [HttpGet("{id:guid}/availability")]
+    public async Task<EndpointResult<HotelDetailsDto>> GetHotelAvailability(
+        Guid id,
+        [FromQuery] GetHotelAvailabilityRequest request,
+        [FromServices] IQueryHandlerWithResult<HotelDetailsDto, GetHotelAvailabilityQuery> handler,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetHotelAvailabilityQuery
+        {
+            HotelId = id, CheckIn = request.CheckIn, CheckOut = request.CheckOut, Guests = request.Guests
+        };
 
         return await handler.Handle(query, cancellationToken);
     }
