@@ -83,14 +83,12 @@ public static class AuthErrors
         public static Error RefreshTokenReuseDetected() =>
             Error.Conflict(
                 "auth.token.refresh.reuse_detected",
-                "Refresh token is revoked",
-                "refreshToken");
+                "Refresh token is revoked");
 
         public static Error RefreshTokenCompromised() =>
             Error.Conflict(
                 "auth.token.refresh.compromised",
-                "Refresh token reuse detected. All sessions revoked.",
-                "refreshToken");
+                "Refresh token reuse detected. All sessions revoked.");
     }
 
     public static class Validation
