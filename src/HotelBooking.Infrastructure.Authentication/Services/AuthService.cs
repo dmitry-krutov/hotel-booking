@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using HotelBooking.Application.Features.Auth;
 using HotelBooking.Infrastructure.Authentication.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

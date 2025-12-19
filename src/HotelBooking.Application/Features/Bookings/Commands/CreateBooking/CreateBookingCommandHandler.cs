@@ -4,6 +4,7 @@ using Core.Database;
 using Core.Validation;
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using HotelBooking.Application.Features.Hotels;
 using HotelBooking.Contracts.Bookings;
 using HotelBooking.Domain.Booking;
 using HotelBooking.Domain.ValueObjects.Ids;
