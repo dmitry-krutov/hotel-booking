@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using HotelBooking.Domain.Hotel.ValueObjects;
 using HotelBooking.Domain.ValueObjects.Ids;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Domain.Hotel;
@@ -82,7 +83,7 @@ public class Hotel : DomainEntity<HotelId>
     {
         var room = _rooms.FirstOrDefault(r => r.Id == roomId);
         if (room is null)
-            return GeneralErrors.Entity.NotFound(nameof(Room));
+            return HotelErrors.Rooms.NotFound(roomId.Value);
 
         _rooms.Remove(room);
         return Result.Success<Error>();
@@ -97,7 +98,7 @@ public class Hotel : DomainEntity<HotelId>
     {
         var room = _rooms.FirstOrDefault(r => r.Id == roomId);
         if (room is null)
-            return GeneralErrors.Entity.NotFound(nameof(Room));
+            return HotelErrors.Rooms.NotFound(roomId.Value);
 
         room.UpdateDetails(title, pricePerNight, capacity, isActive);
 

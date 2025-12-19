@@ -1,9 +1,9 @@
 using CSharpFunctionalExtensions;
-using HotelBooking.Application.Features.Auth;
 using HotelBooking.Infrastructure.Authentication.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Infrastructure.Authentication.Services;
@@ -32,25 +32,25 @@ public class AuthService : IAuthService
         CancellationToken ct)
     {
         if (password != confirmPassword)
-            return AuthErrors.PasswordsDoNotMatch();
+            return AuthErrors.Identity.PasswordsDoNotMatch();
 
         var existingByName = await _userManager.FindByNameAsync(username);
         if (existingByName != null)
-            return AuthErrors.IdentityFailure("Username is already taken.");
+            return AuthErrors.Users.UserNameAlreadyExists(username);
 
         var existingByEmail = await _userManager.FindByEmailAsync(email);
         if (existingByEmail != null)
-            return AuthErrors.IdentityFailure("Email is already taken.");
+            return AuthErrors.Users.EmailAlreadyExists(email);
 
         var user = new ApplicationUser { UserName = username, Email = email };
 
         var createResult = await _userManager.CreateAsync(user, password);
         if (!createResult.Succeeded)
-            return AuthErrors.IdentityFailure(string.Join("; ", createResult.Errors.Select(e => e.Description)));
+            return AuthErrors.Identity.GeneralFailure(string.Join("; ", createResult.Errors.Select(e => e.Description)));
 
         var roleResult = await _userManager.AddToRoleAsync(user, RoleNames.USER);
         if (!roleResult.Succeeded)
-            return AuthErrors.IdentityFailure(string.Join("; ", roleResult.Errors.Select(e => e.Description)));
+            return AuthErrors.Identity.GeneralFailure(string.Join("; ", roleResult.Errors.Select(e => e.Description)));
 
         var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
         var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user, previous: null, ct);
@@ -66,15 +66,15 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByNameAsync(username);
         if (user == null)
-            return AuthErrors.InvalidClient();
+            return AuthErrors.Credentials.InvalidClient();
 
         if (!await _userManager.CheckPasswordAsync(user, password))
-            return AuthErrors.InvalidCredentials();
+            return AuthErrors.Credentials.Invalid();
 
         if (await _userManager.GetTwoFactorEnabledAsync(user))
         {
             if (string.IsNullOrWhiteSpace(twoFactorCode))
-                return AuthErrors.TwoFactorRequired();
+                return AuthErrors.TwoFactor.Required();
 
             var isValid = await _userManager.VerifyTwoFactorTokenAsync(
                 user,
@@ -82,7 +82,7 @@ public class AuthService : IAuthService
                 twoFactorCode);
 
             if (!isValid)
-                return AuthErrors.InvalidTwoFactorCode();
+                return AuthErrors.TwoFactor.Invalid();
         }
 
         var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
@@ -100,7 +100,7 @@ public class AuthService : IAuthService
             .FirstOrDefaultAsync(r => r.TokenHash == hash, ct);
 
         if (refresh == null)
-            return AuthErrors.RefreshTokenInvalid();
+            return AuthErrors.Tokens.InvalidRefreshToken();
 
         var now = DateTime.UtcNow;
 
@@ -114,14 +114,14 @@ public class AuthService : IAuthService
                     now,
                     ct);
 
-                return AuthErrors.RefreshTokenReuseDetected();
+                return AuthErrors.Tokens.RefreshTokenReuseDetected();
             }
 
-            return AuthErrors.RefreshTokenInvalid();
+            return AuthErrors.Tokens.InvalidRefreshToken();
         }
 
         if (refresh.Expires < now || refresh.AbsoluteExpires < now)
-            return AuthErrors.RefreshTokenExpired();
+            return AuthErrors.Tokens.RefreshTokenExpired();
 
         refresh.IsRevoked = true;
         refresh.RevokedAt = now;
@@ -141,7 +141,7 @@ public class AuthService : IAuthService
             .FirstOrDefaultAsync(r => r.TokenHash == hash, ct);
 
         if (refresh == null)
-            return AuthErrors.RefreshTokenInvalid();
+            return AuthErrors.Tokens.InvalidRefreshToken();
 
         if (refresh.IsRevoked)
             return Result.Success<Error>();

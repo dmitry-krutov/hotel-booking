@@ -1,5 +1,7 @@
+using Core.Validation;
 using FluentValidation;
 using HotelBooking.Contracts.Hotels;
+using Shared.Errors;
 
 namespace HotelBooking.Application.Features.Hotels.Queries.SearchHotels;
 
@@ -33,8 +35,13 @@ public class SearchHotelsQueryValidator : AbstractValidator<SearchHotelsQuery>
             .GreaterThanOrEqualTo(0).When(x => x.MaxPrice.HasValue);
 
         RuleFor(x => x)
-            .Must(x => !x.MinPrice.HasValue || !x.MaxPrice.HasValue || x.MinPrice <= x.MaxPrice)
-            .WithMessage("MinPrice must be less than or equal to MaxPrice.");
+            .Custom((query, context) =>
+            {
+                if (query.MinPrice.HasValue && query.MaxPrice.HasValue && query.MinPrice > query.MaxPrice)
+                {
+                    context.AddFailure(nameof(query.MinPrice), HotelErrors.Validation.InvalidPriceRange().Serialize());
+                }
+            });
 
         RuleFor(x => x.Sort)
             .IsInEnum();

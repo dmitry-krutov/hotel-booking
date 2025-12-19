@@ -1,4 +1,6 @@
+using Core.Validation;
 using FluentValidation;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Auth.Commands.GenerateTwoFactorSecret;
@@ -9,6 +11,6 @@ public sealed class GenerateTwoFactorSecretCommandValidator : AbstractValidator<
     {
         RuleFor(x => x.UserId)
             .NotEmpty()
-            .WithMessage(Error.Validation("userId.empty", "UserId is required").Serialize());
+            .WithError(AuthErrors.Validation.UserIdRequired());
     }
 }

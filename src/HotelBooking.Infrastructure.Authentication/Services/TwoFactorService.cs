@@ -1,7 +1,7 @@
 using CSharpFunctionalExtensions;
-using HotelBooking.Application.Features.Auth;
 using HotelBooking.Infrastructure.Authentication.Entities;
 using Microsoft.AspNetCore.Identity;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Infrastructure.Authentication.Services;
@@ -19,7 +19,7 @@ public class TwoFactorService : ITwoFactorService
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
         if (user == null)
-            return AuthErrors.NotFound(userId).ToErrorList();
+            return AuthErrors.Users.NotFound(userId).ToErrorList();
 
         await _userManager.ResetAuthenticatorKeyAsync(user);
         var key = await _userManager.GetAuthenticatorKeyAsync(user);
@@ -30,14 +30,14 @@ public class TwoFactorService : ITwoFactorService
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
         if (user == null)
-            return AuthErrors.NotFound(userId).ToErrorList();
+            return AuthErrors.Users.NotFound(userId).ToErrorList();
 
         var isValid = await _userManager.VerifyTwoFactorTokenAsync(
             user,
             _userManager.Options.Tokens.AuthenticatorTokenProvider,
             code);
         if (!isValid)
-            return AuthErrors.TwoFactorInvalidCode().ToErrorList();
+            return AuthErrors.TwoFactor.Invalid().ToErrorList();
 
         await _userManager.SetTwoFactorEnabledAsync(user, true);
         return user.Id;
@@ -47,7 +47,7 @@ public class TwoFactorService : ITwoFactorService
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
         if (user == null)
-            return AuthErrors.NotFound(userId).ToErrorList();
+            return AuthErrors.Users.NotFound(userId).ToErrorList();
 
         await _userManager.SetTwoFactorEnabledAsync(user, false);
         await _userManager.ResetAuthenticatorKeyAsync(user);

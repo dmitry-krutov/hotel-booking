@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Domain.Booking.ValueObjects;
@@ -24,9 +25,7 @@ public sealed class DateRange : ComparableValueObject
     {
         if (checkOut <= checkIn)
         {
-            return GeneralErrors.Validation.InvalidFormat(
-                nameof(DateRange),
-                "CheckOut must be greater than CheckIn");
+            return BookingErrors.Validation.InvalidDateRange();
         }
 
         return new DateRange(checkIn, checkOut);

@@ -1,4 +1,6 @@
+using Core.Validation;
 using FluentValidation;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Auth.Commands.Refresh;
@@ -9,8 +11,8 @@ public sealed class RefreshCommandValidator : AbstractValidator<RefreshCommand>
     {
         RuleFor(x => x.RefreshToken)
             .NotEmpty()
-            .WithMessage(Error.Validation("refreshToken.empty", "RefreshToken is required").Serialize())
+            .WithError(AuthErrors.Validation.RefreshTokenRequired())
             .MaximumLength(2048)
-            .WithMessage(Error.Validation("refreshToken.maxLength", "RefreshToken is too long").Serialize());
+            .WithError(AuthErrors.Validation.RefreshTokenTooLong());
     }
 }

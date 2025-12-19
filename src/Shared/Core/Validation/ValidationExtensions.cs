@@ -12,7 +12,10 @@ public static class ValidationExtensions
         var errors = from validationError in validationErrors
             let errorMessage = validationError.ErrorMessage
             let error = Error.Deserialize(errorMessage)
-            select Error.Validation(error.Code, error.Message, validationError.PropertyName);
+            let field = string.IsNullOrWhiteSpace(validationError.PropertyName)
+                ? ErrorField.Normalize(error.InvalidField)
+                : ErrorField.Normalize(validationError.PropertyName)
+            select Error.Validation(error.Code, error.Message, field);
 
         return errors.ToList();
     }

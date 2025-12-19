@@ -4,11 +4,10 @@ using Core.Database;
 using Core.Validation;
 using CSharpFunctionalExtensions;
 using FluentValidation;
-using HotelBooking.Application.Features.Bookings;
-using HotelBooking.Application.Features.Hotels;
 using HotelBooking.Contracts.Bookings;
 using HotelBooking.Domain.Booking;
 using HotelBooking.Domain.ValueObjects.Ids;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Bookings.Commands.CreateBooking;
@@ -49,13 +48,13 @@ public sealed class CreateBookingCommandHandler : ICommandHandler<BookingDto, Cr
 
         var room = hotelResult.Value.Rooms.FirstOrDefault(r => r.Id == command.RoomIdVo);
         if (room is null)
-            return BookingErrors.RoomNotFound(command.RoomId).ToErrorList();
+            return BookingErrors.Rooms.NotFound(command.RoomId).ToErrorList();
 
         if (!room.IsActive)
-            return BookingErrors.RoomInactive(command.RoomId).ToErrorList();
+            return BookingErrors.Rooms.Inactive(command.RoomId).ToErrorList();
 
         if (command.GuestsVo.Value > room.Capacity.Value)
-            return BookingErrors.GuestsExceedCapacity(room.Capacity.Value).ToErrorList();
+            return BookingErrors.Validation.GuestsExceedCapacity(room.Capacity.Value).ToErrorList();
 
         var isAvailable = await _bookingRepository.IsRoomAvailable(
             command.RoomIdVo,
@@ -63,7 +62,7 @@ public sealed class CreateBookingCommandHandler : ICommandHandler<BookingDto, Cr
             cancellationToken);
 
         if (!isAvailable)
-            return BookingErrors.RoomUnavailable(command.CheckIn, command.CheckOut).ToErrorList();
+            return BookingErrors.Rooms.Unavailable(command.CheckIn, command.CheckOut).ToErrorList();
 
         var totalPrice = room.PricePerNight.Value * command.PeriodVo.Nights;
 

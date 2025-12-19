@@ -3,8 +3,8 @@ using Core.Abstractions;
 using Core.Validation;
 using CSharpFunctionalExtensions;
 using FluentValidation;
-using HotelBooking.Application.Features.Hotels;
 using HotelBooking.Contracts.Hotels;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Hotels.Queries.GetHotelAvailability;
@@ -36,7 +36,7 @@ public sealed class GetHotelAvailabilityQueryHandler
 
         var hotel = await _hotelAvailabilityReadRepository.GetHotelWithAvailableRooms(query, cancellationToken);
         if (hotel is null)
-            return GeneralErrors.Entity.NotFound("Hotel", query.HotelId).ToErrorList();
+            return HotelErrors.Hotels.NotFound(query.HotelId).ToErrorList();
 
         return _mapper.Map<HotelDetailsDto>(hotel);
     }

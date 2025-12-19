@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Framework.ErrorHandling;
 using SharedKernel;
 
 namespace Framework.EndpointResults;
@@ -35,7 +36,7 @@ public class ErrorsResult : IResult
 
         int statusCode = distinctErrorTypes.Count > 1
             ? StatusCodes.Status500InternalServerError
-            : GetStatusCodeForErrorType(distinctErrorTypes.First());
+            : ErrorHttpStatusMapper.Map(distinctErrorTypes.First());
 
         var envelope = Envelope.Error(_errors);
         httpContext.Response.StatusCode = statusCode;
@@ -43,12 +44,4 @@ public class ErrorsResult : IResult
         return httpContext.Response.WriteAsJsonAsync(envelope);
     }
 
-    private static int GetStatusCodeForErrorType(ErrorType errorType) =>
-        errorType switch
-        {
-            ErrorType.VALIDATION => StatusCodes.Status400BadRequest,
-            ErrorType.NOT_FOUND => StatusCodes.Status404NotFound,
-            ErrorType.CONFLICT => StatusCodes.Status409Conflict,
-            _ => StatusCodes.Status500InternalServerError
-        };
 }
