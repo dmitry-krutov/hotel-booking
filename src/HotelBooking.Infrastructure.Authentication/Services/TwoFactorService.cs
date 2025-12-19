@@ -23,7 +23,7 @@ public class TwoFactorService : ITwoFactorService
 
         await _userManager.ResetAuthenticatorKeyAsync(user);
         var key = await _userManager.GetAuthenticatorKeyAsync(user);
-        return key;
+        return key!;
     }
 
     public async Task<Result<Guid, ErrorList>> EnableTwoFactorAsync(Guid userId, string code, CancellationToken ct)
