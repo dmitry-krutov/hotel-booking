@@ -21,37 +21,37 @@ public class HotelAvailabilityReadRepository : IHotelAvailabilityReadRepository
         CancellationToken cancellationToken)
     {
         const string sql = """
-SELECT id,
-       title,
-       country,
-       city,
-       region,
-       street,
-       building,
-       postal_code,
-       description
-FROM hotels
-WHERE id = @HotelId;
+                           SELECT id,
+                                  title,
+                                  country,
+                                  city,
+                                  region,
+                                  street,
+                                  building,
+                                  postal_code,
+                                  description
+                           FROM hotels
+                           WHERE id = @HotelId;
 
-SELECT id,
-       hotel_id,
-       title,
-       price_per_night,
-       capacity,
-       is_active
-FROM room
-WHERE hotel_id = @HotelId
-  AND is_active = TRUE
-  AND capacity >= @Guests
-  AND NOT EXISTS (
-      SELECT 1
-      FROM bookings AS b
-      WHERE b.room_id = room.id
-        AND b.status = @ActiveStatus
-        AND b.check_in < @CheckOut
-        AND b.check_out > @CheckIn
-  );
-""";
+                           SELECT id,
+                                  hotel_id,
+                                  title,
+                                  price_per_night,
+                                  capacity,
+                                  is_active
+                           FROM room
+                           WHERE hotel_id = @HotelId
+                             AND is_active = TRUE
+                             AND capacity >= @Guests
+                             AND NOT EXISTS (
+                                 SELECT 1
+                                 FROM bookings AS b
+                                 WHERE b.room_id = room.id
+                                   AND b.status = @ActiveStatus
+                                   AND b.check_in < @CheckOut
+                                   AND b.check_out > @CheckIn
+                             );
+                           """;
 
         var parameters = new
         {

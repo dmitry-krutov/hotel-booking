@@ -20,6 +20,8 @@ public static class DependencyInjection
     {
         services.Configure<EfOptions>(
             configuration.GetSection(EfOptions.SECTION_NAME));
+        services.Configure<DatabaseSeedOptions>(
+            configuration.GetSection(DatabaseSeedOptions.SECTION_NAME));
 
         services.AddScoped<IDbConnectionFactory, MySqlConnectionFactory>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();

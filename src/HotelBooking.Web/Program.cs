@@ -5,9 +5,12 @@ using Framework.Middlewares;
 using HotelBooking.Application;
 using HotelBooking.Infrastructure;
 using HotelBooking.Infrastructure.Authentication;
+using HotelBooking.Infrastructure.Database;
 using HotelBooking.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 builder.Services
     .AddInfrastructure(builder.Configuration)
@@ -31,6 +34,7 @@ builder.Services.AddSwaggerWithAuth("HotelBookingAPI", "v1");
 var app = builder.Build();
 
 await AuthorizationSeeder.InitializeAsync(app.Services);
+await DatabaseSeeder.InitializeAsync(app.Services);
 
 app.UseExceptionMiddleware();
 
