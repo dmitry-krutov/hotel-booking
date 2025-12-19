@@ -4,6 +4,7 @@ using Framework.EndpointResults;
 using Framework.Middlewares;
 using HotelBooking.Application;
 using HotelBooking.Infrastructure;
+using HotelBooking.Infrastructure.Database;
 using HotelBooking.Infrastructure.Authentication;
 using HotelBooking.Web;
 
@@ -31,6 +32,7 @@ builder.Services.AddSwaggerWithAuth("HotelBookingAPI", "v1");
 var app = builder.Build();
 
 await AuthorizationSeeder.InitializeAsync(app.Services);
+await DatabaseSeeder.InitializeAsync(app.Services);
 
 app.UseExceptionMiddleware();
 
