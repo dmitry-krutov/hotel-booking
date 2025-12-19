@@ -1,4 +1,6 @@
+using Core.Validation;
 using FluentValidation;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Auth.Commands.DisableTwoFactor;
@@ -9,6 +11,6 @@ public sealed class DisableTwoFactorCommandValidator : AbstractValidator<Disable
     {
         RuleFor(x => x.UserId)
             .NotEmpty()
-            .WithMessage(Error.Validation("userId.empty", "UserId is required").Serialize());
+            .WithError(AuthErrors.Validation.UserIdRequired());
     }
 }

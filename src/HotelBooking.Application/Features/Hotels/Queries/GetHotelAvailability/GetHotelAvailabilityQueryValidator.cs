@@ -1,4 +1,6 @@
+using Core.Validation;
 using FluentValidation;
+using Shared.Errors;
 
 namespace HotelBooking.Application.Features.Hotels.Queries.GetHotelAvailability;
 
@@ -7,19 +9,28 @@ public class GetHotelAvailabilityQueryValidator : AbstractValidator<GetHotelAvai
     public GetHotelAvailabilityQueryValidator()
     {
         RuleFor(q => q.HotelId)
-            .NotEmpty();
+            .NotEmpty()
+            .WithError(HotelErrors.Validation.HotelIdRequired());
 
         RuleFor(q => q.Guests)
-            .GreaterThan(0);
+            .GreaterThan(0)
+            .WithError(HotelErrors.Validation.GuestsMustBePositive());
 
         RuleFor(q => q.CheckIn)
-            .NotEmpty();
+            .NotEmpty()
+            .WithError(HotelErrors.Validation.CheckInRequired());
 
         RuleFor(q => q.CheckOut)
-            .NotEmpty();
+            .NotEmpty()
+            .WithError(HotelErrors.Validation.CheckOutRequired());
 
         RuleFor(q => q)
-            .Must(query => query.CheckIn < query.CheckOut)
-            .WithMessage("Check-in date must be earlier than check-out date.");
+            .Custom((query, context) =>
+            {
+                if (query.CheckIn >= query.CheckOut)
+                {
+                    context.AddFailure(nameof(query.CheckIn), HotelErrors.Validation.InvalidAvailabilityDateRange().Serialize());
+                }
+            });
     }
 }

@@ -11,9 +11,29 @@ public static class ValidationExtensions
 
         var errors = from validationError in validationErrors
             let errorMessage = validationError.ErrorMessage
-            let error = Error.Deserialize(errorMessage)
-            select Error.Validation(error.Code, error.Message, validationError.PropertyName);
+            let error = TryDeserialize(errorMessage, validationError.PropertyName)
+            select error;
 
         return errors.ToList();
+    }
+
+    private static Error TryDeserialize(string serialized, string propertyName)
+    {
+        try
+        {
+            var error = Error.Deserialize(serialized);
+            var field = string.IsNullOrWhiteSpace(propertyName)
+                ? ErrorField.Normalize(error.InvalidField)
+                : ErrorField.Normalize(propertyName);
+
+            return Error.Validation(error.Code, error.Message, field);
+        }
+        catch
+        {
+            return Error.Validation(
+                "common.validation.invalid",
+                serialized,
+                ErrorField.Normalize(propertyName));
+        }
     }
 }

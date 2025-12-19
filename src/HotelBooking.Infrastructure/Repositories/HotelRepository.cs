@@ -4,6 +4,7 @@ using HotelBooking.Domain.Hotel;
 using HotelBooking.Domain.ValueObjects.Ids;
 using HotelBooking.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Infrastructure.Repositories;
@@ -30,7 +31,7 @@ public class HotelRepository : IHotelRepository
             .FirstOrDefaultAsync(h => h.Id == id, cancellationToken);
 
         if (hotel is null)
-            return GeneralErrors.Entity.NotFound(nameof(Hotel), id.Value);
+            return HotelErrors.Hotels.NotFound(id.Value);
 
         return hotel;
     }

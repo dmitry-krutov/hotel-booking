@@ -3,6 +3,7 @@ using Core.Validation;
 using FluentValidation;
 using HotelBooking.Domain.Booking.ValueObjects;
 using HotelBooking.Domain.ValueObjects.Ids;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Bookings.Commands.CreateBooking;
@@ -30,14 +31,14 @@ public sealed class CreateBookingCommandValidator : AbstractValidator<CreateBook
                 var dateRangeResult = DateRange.Create(command.CheckIn, command.CheckOut);
                 if (dateRangeResult.IsFailure)
                 {
-                    context.AddFailure(dateRangeResult.Error.Serialize());
+                    context.AddFailure(nameof(command.CheckOut), dateRangeResult.Error.Serialize());
                     return;
                 }
 
                 var today = DateOnly.FromDateTime(dateTimeProvider.UtcNow.Date);
                 if (command.CheckIn < today)
                 {
-                    context.AddFailure(BookingErrors.CheckInInPast().Serialize());
+                    context.AddFailure(nameof(command.CheckIn), BookingErrors.Validation.CheckInInPast().Serialize());
                     return;
                 }
 

@@ -17,8 +17,9 @@ public static class ModelStateToEnvelopeMapper
                     : e.ErrorMessage;
 
                 return Error.Validation(
-                    code: "validation.error",
-                    message: $"{x.Key}: {message}");
+                    code: "common.validation.invalid_input",
+                    message: message,
+                    invalidField: ErrorField.Normalize(x.Key));
             }))
             .ToList();
 

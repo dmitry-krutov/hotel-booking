@@ -4,6 +4,7 @@ using Core.Validation;
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using HotelBooking.Contracts.Hotels;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Hotels.Queries.GetHotelById;
@@ -35,7 +36,7 @@ public sealed class GetHotelByIdQueryHandler
 
         var hotel = await _hotelReadRepository.GetById(query.HotelId, cancellationToken);
         if (hotel is null)
-            return GeneralErrors.Entity.NotFound("Hotel", query.HotelId).ToErrorList();
+            return HotelErrors.Hotels.NotFound(query.HotelId).ToErrorList();
 
         return _mapper.Map<HotelDetailsDto>(hotel);
     }

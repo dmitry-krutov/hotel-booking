@@ -1,5 +1,7 @@
 using System.Text.RegularExpressions;
+using Core.Validation;
 using FluentValidation;
+using Shared.Errors;
 using SharedKernel;
 
 namespace HotelBooking.Application.Features.Auth.Commands.EnableTwoFactor;
@@ -12,13 +14,12 @@ public sealed class EnableTwoFactorCommandValidator : AbstractValidator<EnableTw
     {
         RuleFor(x => x.UserId)
             .NotEmpty()
-            .WithMessage(Error.Validation("userId.empty", "UserId is required").Serialize());
+            .WithError(AuthErrors.Validation.UserIdRequired());
 
         RuleFor(x => x.Code)
             .NotEmpty()
-            .WithMessage(Error.Validation("twoFactor.code.empty", "Two-factor code is required").Serialize())
+            .WithError(AuthErrors.Validation.TwoFactorCodeRequired())
             .Must(code => SixDigitsRegex.IsMatch(code))
-            .WithMessage(Error.Validation("twoFactor.code.invalid", "Two-factor code must be exactly 6 digits")
-                .Serialize());
+            .WithError(AuthErrors.Validation.TwoFactorCodeInvalidLength());
     }
 }
