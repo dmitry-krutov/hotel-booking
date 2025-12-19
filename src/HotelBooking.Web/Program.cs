@@ -4,11 +4,13 @@ using Framework.EndpointResults;
 using Framework.Middlewares;
 using HotelBooking.Application;
 using HotelBooking.Infrastructure;
-using HotelBooking.Infrastructure.Database;
 using HotelBooking.Infrastructure.Authentication;
+using HotelBooking.Infrastructure.Database;
 using HotelBooking.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 builder.Services
     .AddInfrastructure(builder.Configuration)
